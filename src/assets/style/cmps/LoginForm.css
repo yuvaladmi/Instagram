@@ -1,0 +1,13 @@
+.login-form {
+
+    .inputs-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    button {
+        margin-inline: 0;
+    }
+    
+}

@@ -1,0 +1,22 @@
+.login-signup {
+
+    margin-top: 1em;
+
+    .btns {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-top: 0.5em;
+
+        .demo-users {
+            background: none;
+            display: block;
+            color: white;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+        }
+    }
+}
