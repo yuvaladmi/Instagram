@@ -1,22 +1,50 @@
 import { useState } from 'react'
+import { storySvg } from './svg.jsx'
 
-export function StoryPreview({ story, onSetNewComment }) {
+import { Modal } from "./Modal.jsx"; 
+import { Link } from "react-router-dom";
+export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory }) {
     const [newComment, setNewComment] = useState("");
+    const [menuOpen, setMenuOpen] = useState(false);
 
-    const handleAddComment = () => {
+    function handleAddComment() {
         if (!newComment.trim()) return;
 
         // Here you can update the story comments in state or send it to the backend
         console.log("New Comment:", newComment);
         setNewComment(""); // Clear input after posting
         onSetNewComment(story._id, newComment);
-    };
+    }
 
+    function handleLike(){
+        onNewLike(story._id);
+    }
+
+    function handleSave(){
+        onSaveStory(story._id);
+    }
+
+    function openModal(){
+        console.log("Opening modal..."); // Debugging
+        setMenuOpen(true);
+    }
+
+    function closeModal(){
+        console.log("Closing modal..."); // Debugging
+        setMenuOpen(false);
+    }
+    
     return (
         <article className="story-preview">
             <section className="story-header">
+            <div className="story-user">
                 <img className="profile-img" src={story.by.imgUrl} />
                 <a className="username">{story.by.fullname}</a>
+                <span className='created-at'></span>
+            </div>
+                <button className="menu-button" onClick={openModal}>
+                    {storySvg.threeDots}
+                </button>
             </section>
         
             <section className="story-body">
@@ -25,33 +53,55 @@ export function StoryPreview({ story, onSetNewComment }) {
         
             <section className="story-footer">
                 <div className="story-actions">
-                    <div className="story-like">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                        </svg>
-                        <span>{story.likedBy.length}</span>
+                    <div className="left-actions">
+                        <div className="story-like" onClick={() => handleLike()}>
+                            {storySvg.like}
+                            <span>{story.likedBy.length}</span>
+                        </div>
+
+                        <div className="story-comment" onClick={() => handleAddComment()}>
+                            {storySvg.comment}
+                            <span>{story.comments.length}</span>
+                        </div>
                     </div>
-                    <div className="story-comment">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
-                        </svg>
-                        <span>{story.comments.length}</span>
+
+                    <div className="save-button" onClick={() => handleSave(story.id)}>
+                        {storySvg.save}
                     </div>
                 </div>
-                <div className="add-comment">
-                    <input
-                        type="text"
-                        placeholder="Add a comment..."
-                        className="comment-input"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                    />
-                    <button className="post-btn" onClick={handleAddComment} disabled={!newComment.trim()}>
-                        Post
-                    </button>
+
+                <div>
+                    <Link to={story.by.username} className="story-user-name link">{story.by.username}</Link> 
+                    <span className="story-text"></span>
+                </div>
+                <div className="comments-section">
+                    {story.comments.length > 0 && (
+                        <Link to={`/story/${story.id}/comments`} className="view-comments-link">
+                            View all {story.comments.length} comments
+                        </Link>
+                    )}
+                    <div className="add-comment">
+                        <input
+                            type="text"
+                            placeholder="Add a comment..."
+                            className="comment-input"
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                        />
+                        <button className="post-btn" onClick={handleAddComment} disabled={!newComment.trim()}>
+                            Post
+                        </button>
+                    </div>
                 </div>
             </section>
-
+            {/* Reusable Modal Component */}
+            <Modal isOpen={menuOpen} onClose={closeModal}>
+                <ul className="dropdown-list">
+                    <li>Go To Post</li>
+                    <li>Follow</li>
+                    <li onClick={closeModal}>Cancel</li>
+                </ul>
+            </Modal>
 
         </article>
     

@@ -1,7 +1,7 @@
 .app-container{
-    display: flex;
-    justify-content: space-between;
-    grid-template-columns: 350px 1fr;
+    display: grid;
+    /* justify-content: space-between; */
+    grid-template-columns: auto 1fr;
 }
 
 .contant-container {
@@ -11,7 +11,7 @@
 }
 
 .contant-container {
-    margin-left: 245px;
+    /* margin-left: 245px; */
     width: 100%;
 }
 
@@ -21,4 +21,9 @@
     margin: 2.76rem auto;
     grid-template-columns: 57% 43%;
     height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif
 }
