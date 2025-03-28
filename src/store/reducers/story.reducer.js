@@ -13,11 +13,8 @@ export const UNDO_STORIES = 'UNDO_STORIES'
 
 const initialState = {
     stories: [],
-    lastCars: [],
     filterBy: storyService.getDefaultFilter(),
-    isLoading: false,
-    shoppingCart: [],
-    isCartShown: false,
+    isLoading: false
 }
 
 
@@ -32,7 +29,7 @@ export function storyReducer(state = initialState, cmd = {}) {
         case REMOVE_STORY:
             return {
                 ...state,
-                stories: state.stories.filter(story => story.id !== cmd.storyId),
+                stories: state.stories.filter(story => story._id !== cmd.storyId),
                 lastStories: [...state.stories]
             }
         case ADD_STORY:
@@ -43,7 +40,7 @@ export function storyReducer(state = initialState, cmd = {}) {
         case UPDATE_STORY:
             return {
                 ...state,
-                stories: state.stories.map(story => story.id === cmd.story.id ? cmd.story : story)
+                stories: state.stories.map(story => story._id === cmd.story._id ? cmd.story : story)
             }
         case SET_FILTER_BY:
             return {
