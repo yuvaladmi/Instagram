@@ -11,7 +11,7 @@ export const userService = {
     getLoggedinUser,
     getEmptyCredentials,
     signupDemoUsers,
-    updateSavedStory
+    updateUserInStorage
 }
 
 
@@ -77,10 +77,8 @@ function _setLoggedinUser(user) {
 //     return users
 // }
 
-function updateSavedStory(storyId) {
-    const loggedInUserId = getLoggedinUser();
-    loggedInUserId.savedStoryIds.push(storyId)
-    return storageService.put(STORAGE_KEY, loggedInUserId);
+function updateUserInStorage(user) {
+    return storageService.put(STORAGE_KEY, user);
 }
 
 

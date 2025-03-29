@@ -52,13 +52,27 @@ export function logout() {
 
 
 export function savedStoryUser(storyId) {
-    return userService.updateSavedStory(storyId)
-        .then((user) => {
-            // debugger;
-            store.dispatch({ type: SET_USER, user })
-        })
-        .catch(err => {
-            console.log('user actions -> Cannot signup', err)
-            throw err
-        })
+    // return userService.updateSavedStory(storyId)
+    //     .then((user) => {
+    //         // debugger;
+    //         store.dispatch({ type: SET_USER, user })
+    //     })
+    //     .catch(err => {
+    //         console.log('user actions -> Cannot signup', err)
+    //         throw err
+    //     })
+        const loggedInUser = userService.getLoggedinUser()
+        userService.getById(loggedInUser._id)
+            .then((userFromStorage) => {
+                // debugger;
+                userFromStorage.savedStoryIds.push(storyId);
+                userService.updateUserInStorage(userFromStorage)
+                    .then((updatedUser) => {
+                        store.dispatch({ type: SET_USER, updatedUser })
+                    })
+            })
+            .catch(err => {
+                console.log('user actions -> Cannot signup', err)
+                throw err
+            })
 }
