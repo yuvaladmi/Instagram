@@ -25,24 +25,6 @@ export function userReducer(state = initialState, cmd = {}) {
                 ...state,
                 loggedInUser: cmd.user
             }
-        case INCREMENT:
-            return {
-                ...state,
-                count: state.count + 1
-            }
-        case DECREMENT:
-            return {
-                ...state,
-                count: state.count - 1
-            }
-        case CHANGE_BY:
-            return {
-                ...state,
-                count: state.count + cmd.diff
-            }
-        case SET_USER_SCORE:
-            const loggedInUser = { ...state.loggedInUser, score: cmd.score }
-            return { ...state, loggedInUser }
         case SET_USERS:
             return { ...state, users: cmd.users }
         case LOADING_START:

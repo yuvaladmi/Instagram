@@ -42,11 +42,8 @@ export function removeStory(storyId) {
         })
 }
 
-
-
-
 export function saveStory(story) {
-    const type = story.id ? UPDATE_STORY : ADD_STORY
+    const type = story._id ? UPDATE_STORY : ADD_STORY
     return storyService.save(story)
         .then((savedStory) => {
             store.dispatch({ type, story: savedStory })
@@ -55,5 +52,49 @@ export function saveStory(story) {
         .catch(err => {
             console.log('story action -> Cannot save story', err)
             throw err
+        })
+}
+
+export function addComment(txt, storyId, user) {
+    //TODO : Ask if its better to combine actions
+    const comment = storyService.createComment(txt, user);
+    return storyService.getById(storyId)
+        .then(story => {
+            story.comments.push(comment);
+            storyService.save(story);
+            return storyService.save(story)
+                .then((savedStory) => {
+                    store.dispatch({ type: UPDATE_STORY, story: savedStory })
+                })
+                .catch(err => {
+                    console.log('story action -> Cannot save story', err)
+                    throw err
+                })
+        })
+        .catch(err => {
+            console.log('Had issues in new like', err)
+        })
+}
+
+export function addLike(storyId,user){
+    storyService.getById(storyId)
+        .then(story => {
+            story.likedBy.push({
+                _id: user._id,
+                username: user.username,
+                fullname: user.fullname,
+                imgUrl: user.imgUrl
+            });
+            return storyService.saveLike(story)
+                    .then((savedStory) => {
+                        store.dispatch({ type: UPDATE_STORY, story: savedStory })
+                    })
+                    .catch(err => {
+                        console.log('story action -> Cannot save story', err)
+                        throw err
+                    })
+        })
+        .catch(err => {
+            console.log('Had issues in new like', err)
         })
 }

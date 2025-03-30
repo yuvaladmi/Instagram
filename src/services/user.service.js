@@ -1,103 +1,99 @@
 import { storageService } from './async-storage.service'
 
-const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
+const STORAGE_KEY = 'user'
+const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
 
 export const userService = {
     login,
     logout,
     signup,
-    getLoggedinUser,
-    saveLocalUser,
-    getUsers,
     getById,
-    remove,
-    update,
-    getEmptyUser,
-    filterUsers,
-    getEmptyCredentials
+    getLoggedinUser,
+    getEmptyCredentials,
+    signupDemoUsers,
+    updateUserInStorage
 }
 
-window.userService = userService
 
-function filterUsers(filterBy, users) {
-    if (!users.length) return
-    const regex = new RegExp(filterBy.txt, 'i')
-    users = users.filter(user => {
-        return regex.test(user.username)
-    })
-    return users
+function getById(userId) {
+    return storageService.get(STORAGE_KEY, userId)
 }
 
-async function getUsers(filterBy = { txt: '' }) {
-    var users = await storageService.query('user').then(users => users)
-    if (filterBy.txt) {
-        const regex = new RegExp(filterBy.txt, 'i')
-        users = users.filter(user => {
-            return regex.test(user.username)
+function login({ username, password }) {
+    return storageService.query(STORAGE_KEY)
+        .then(users => {
+            const user = users.find(user => user.username === username)
+            // if (user && user.password !== password) return _setLoggedinUser(user)
+            if (user) return _setLoggedinUser(user)
+            else return Promise.reject('Invalid login')
         })
-        // users = users.filter(user => regex.test(user.unername) || regex.test(car.description))
-    }
-    return users
 }
 
-async function getById(userId) {
-    const user = await storageService.get('user', userId)
-    return user
-}
-
-function remove(userId) {
-    return storageService.remove('user', userId)
-}
-
-async function update(userToUpdate) {
-    const user = await storageService.get('user', userToUpdate._id)
-    await storageService.put('user', user)
-
-    // Handle case in which admin updates other user's details
-    if (getLoggedinUser()._id === user._id) saveLocalUser(user)
-    return user
-}
-
-async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+function signup({ username, password, fullname }) {
+    const user = { username, password, fullname }
+    if (!user.imgUrl) user.imgUrl = 'https://freesvg.org/img/abstract-user-flat-3.png'; 
+    if (!user.bio) user.bio = '';
+    if (!user.following) user.following = [];
+    if (!user.followers) user.followers = [];
+    if (!user.savedStoryIds) user.savedStoryIds = [];
     
-    if (user) {
-        return saveLocalUser(user)
-    }
+    return storageService.post(STORAGE_KEY, user)
+        .then(_setLoggedinUser)
 }
 
-async function signup(userCred) {
-    if (!userCred.imgUrl) userCred.imgUrl = 'https://freesvg.org/img/abstract-user-flat-3.png'
-;
-    const user = await storageService.post('user', userCred)
-    return saveLocalUser(user)
-}
-async function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-}
-
-function saveLocalUser(user) {
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    return user
+function logout() {
+    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
+    return Promise.resolve()
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
 }
 
-function getEmptyUser() {
-    return {
-        username: "",
-        password: "",
-        fullname: "",
-        imgUrl: '',
-        bio: '',
-        following: [],
-        followers: [],
-        savedStoryIds: []
-    }
+function _setLoggedinUser(user) {
+    const userToSave = { id: user.id, fullname: user.fullname }
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
+    return userToSave
 }
+
+// function filterUsers(filterBy, users) {
+//     if (!users.length) return
+//     const regex = new RegExp(filterBy.txt, 'i')
+//     users = users.filter(user => {
+//         return regex.test(user.username)
+//     })
+//     return users
+// }
+
+// async function getUsers(filterBy = { txt: '' }) {
+//     var users = await storageService.query('user').then(users => users)
+//     if (filterBy.txt) {
+//         const regex = new RegExp(filterBy.txt, 'i')
+//         users = users.filter(user => {
+//             return regex.test(user.username)
+//         })
+//         // users = users.filter(user => regex.test(user.unername) || regex.test(car.description))
+//     }
+//     return users
+// }
+
+function updateUserInStorage(user) {
+    return storageService.put(STORAGE_KEY, user);
+}
+
+
+// function getEmptyUser() {
+//     return {
+//         username: "",
+//         password: "",
+//         fullname: "",
+//         imgUrl: '',
+//         bio: '',
+//         following: [],
+//         followers: [],
+//         savedStoryIds: []
+//     }
+// }
 function getEmptyCredentials() {
     return {
         username: '',
@@ -106,6 +102,14 @@ function getEmptyCredentials() {
     }
 }
 
+
+function signupDemoUsers() {
+    return storageService.query(STORAGE_KEY)
+        .then(users => !users.length || Promise.reject('Too Many Demo Users!'))
+        .then(() => userService.signup({ username: 'admin', password: 'admin', fullname: 'Admin Adminov' }))
+        .then(() => userService.signup({ username: 'popo', password: 'popo', fullname: 'Popo McPopo' }))
+        .then(() => userService.signup({ username: 'nina', password: 'nina', fullname: 'Nina Simantov' }))
+} 
 /*
 const user = {
     _id: "u101",
