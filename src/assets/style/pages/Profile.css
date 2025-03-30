@@ -1,0 +1,28 @@
+.profile_container {
+	height: 100vh;
+	width: calc(100vw - 250px + 25px);
+	background: #fff;
+	padding: 0;
+	margin: 0;
+}
+
+.profile_contant {
+	margin: 0 auto;
+	width: 58.4375rem;
+	height: 24.9375rem;
+	color: #000;
+	border-bottom: 1px solid rgb(219, 219, 219);
+}
+
+.profile_img {
+	width: 17.75rem;
+	height: 11.3125;
+	padding: 31px 67px 0;
+}
+.picture {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	border: 1px solid #000;
+	overflow: hidden;
+}

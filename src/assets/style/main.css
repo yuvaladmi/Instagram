@@ -1,10 +1,16 @@
-/* Components */
-@import './cmps/StoryPreview.css';
-@import './cmps/StoriesList.css';
-@import './cmps/LoginSignup.css';
-@import './cmps/LoginForm.css';
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: content-box;
+}
 
 /* Pages */
-@import './pages/SideBar.css';
-@import './pages/App.css';
+@import "./pages/App.css";
+@import "./pages/SideBar.css";
+@import "./pages/Profile.css";
 
+/* Components */
+@import "./cmps/StoryPreview.css";
+@import "./cmps/StoriesList.css";
+@import "./cmps/LoginSignup.css";
+@import "./cmps/LoginForm.css";
