@@ -11,7 +11,6 @@ export const storyService = {
   remove,
   getEmptyStory,
   onRemoveStoryComment,
-  saveLike,
   createComment,
   getDefaultFilter
 }
@@ -52,11 +51,6 @@ async function save(story) {
   return savedStory
 }
 
-async function saveLike(story) {
-  var savedStory = await storageService.put(STORAGE_KEY, story)
-  return savedStory
-}
-
 function createComment(txt, user) {
   return {
     id: utilService.makeId(),
@@ -94,7 +88,7 @@ function _createSrories() {
   const story = [{
         _id: "s101",
         txt: "Best trip ever",
-        imgUrl: "https://cdn.pixabay.com/photo/2023/01/04/13/21/animals-7696695_640.jpg", 
+        imgUrl: "https://res.cloudinary.com/djprda7rj/image/upload/v1722421161/foodPics/leizynqlraftxdsvmem0.jpg", 
         by: {
           _id: "u101",
           fullname: "Ulash Ulashi",

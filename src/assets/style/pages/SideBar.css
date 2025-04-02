@@ -9,6 +9,14 @@
     top: 0;
     left: 0;
     padding: 10px;
+    position: sticky;
+}
+
+.sidebar {
+    top: 0;
+    height: 100vh;
+    padding: .5rem .75rem 1.25rem;
+    border-inline-end: 1px solid #dbdbdb;
 }
 
 .user-info {
@@ -19,15 +27,19 @@
 }
 
 .sidebar ul {
-    list-style: none;
-    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
     margin: 0;
+    padding: 0;
 }
 
-.sidebar li {
-    margin: 10px 0;
+.sidebar ul li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
 }
-
 .sidebar a {
     text-decoration: none;
     font-size: 18px;
@@ -41,4 +53,26 @@
 
 .sidebar a:hover {
     background: #f0f0f0;
+}
+
+.logo {
+    padding: 2rem .75rem 1.75rem;
+}
+
+.logo a{
+    text-decoration: none;
+    color: inherit;
+    line-height: 0;
+}
+
+.logo .svg-icon {
+    line-height: .5;
+}
+
+.link-txt {
+    display: block;
+}
+
+.svg-icon-bold {
+    display: inline-block;
 }

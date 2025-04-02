@@ -11,7 +11,8 @@ export const userService = {
     getLoggedinUser,
     getEmptyCredentials,
     signupDemoUsers,
-    updateUserInStorage
+    updateUserInStorage,
+    getUsers
 }
 
 
@@ -51,7 +52,7 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { id: user.id, fullname: user.fullname }
+    const userToSave = { _id: user._id, fullname: user.fullname }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }
@@ -65,17 +66,17 @@ function _setLoggedinUser(user) {
 //     return users
 // }
 
-// async function getUsers(filterBy = { txt: '' }) {
-//     var users = await storageService.query('user').then(users => users)
-//     if (filterBy.txt) {
-//         const regex = new RegExp(filterBy.txt, 'i')
-//         users = users.filter(user => {
-//             return regex.test(user.username)
-//         })
-//         // users = users.filter(user => regex.test(user.unername) || regex.test(car.description))
-//     }
-//     return users
-// }
+async function getUsers(filterBy = { txt: '' }) {
+    var users = await storageService.query('user').then(users => users)
+    if (filterBy.txt) {
+        const regex = new RegExp(filterBy.txt, 'i')
+        users = users.filter(user => {
+            return regex.test(user.username)
+        })
+        // users = users.filter(user => regex.test(user.unername) || regex.test(car.description))
+    }
+    return users
+}
 
 function updateUserInStorage(user) {
     return storageService.put(STORAGE_KEY, user);

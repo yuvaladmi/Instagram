@@ -25,9 +25,8 @@ export default function App() {
             <SideBar />
             <main className='contant-container'>
                 <Routes>
-                    <Route path="/post" element={<StoryIndex />} >
-                        <Route path="/post/:id" element={<StoryDetails />} />
-                    </Route>
+                    <Route path="/post" element={<StoryIndex />} />
+                    <Route path="/post/:storyId" element={<StoryDetails />} />
                     <Route path="/:username" element={<UserDetails />} />
                     {/* <Route path="inbox" element={<Messanger />} >
                         <Route path=":id" element={<Messanger />} />

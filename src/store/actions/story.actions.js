@@ -56,12 +56,10 @@ export function saveStory(story) {
 }
 
 export function addComment(txt, storyId, user) {
-    //TODO : Ask if its better to combine actions
     const comment = storyService.createComment(txt, user);
     return storyService.getById(storyId)
         .then(story => {
             story.comments.push(comment);
-            storyService.save(story);
             return storyService.save(story)
                 .then((savedStory) => {
                     store.dispatch({ type: UPDATE_STORY, story: savedStory })
@@ -76,16 +74,23 @@ export function addComment(txt, storyId, user) {
         })
 }
 
-export function addLike(storyId,user){
+export function addLike(storyId,currentUser){
     storyService.getById(storyId)
         .then(story => {
-            story.likedBy.push({
-                _id: user._id,
-                username: user.username,
-                fullname: user.fullname,
-                imgUrl: user.imgUrl
-            });
-            return storyService.saveLike(story)
+            //TODO - move to function in service 
+            const isLikedByUser = story.likedBy.some(like => like._id === currentUser._id);
+            const updatedLikedBy = isLikedByUser ? story.likedBy.filter(userLike => userLike._id !== currentUser._id) // Remove user
+                                    : [...story.likedBy, 
+                                        {
+                                            _id: currentUser._id,
+                                            username: currentUser.username,
+                                            fullname: currentUser.fullname,
+                                            imgUrl: currentUser.imgUrl
+                                        }]; // Add user
+
+            story = { ...story, likedBy: updatedLikedBy };
+
+            return storyService.save(story)
                     .then((savedStory) => {
                         store.dispatch({ type: UPDATE_STORY, story: savedStory })
                     })
