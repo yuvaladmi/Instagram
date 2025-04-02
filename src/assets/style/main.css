@@ -7,6 +7,12 @@
 @import './cmps/Modal.css';
 
 /* Pages */
-@import './pages/SideBar.css';
-@import './pages/App.css';
+@import "./pages/App.css";
+@import "./pages/SideBar.css";
+@import "./pages/Profile.css";
 
+/* Components */
+@import "./cmps/StoryPreview.css";
+@import "./cmps/StoriesList.css";
+@import "./cmps/LoginSignup.css";
+@import "./cmps/LoginForm.css";

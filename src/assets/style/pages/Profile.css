@@ -1,0 +1,155 @@
+[class^="profile"] {
+	box-sizing: border-box;
+}
+
+.profile_container {
+	height: 100vh;
+	width: 100%;
+	background: #fff;
+	margin: 0;
+	padding: 30px 20px;
+	font-family: "-apple-system, BlinkMacSystemFont, " Segoe UI
+		", Roboto, Helvetica, Arial, sans-serif";
+}
+
+.profile_contant {
+	/* border: 1px solid red; */
+	margin: 1rem auto 0;
+	/* padding: 30px 20px; */
+	width: 58.4375rem;
+	height: 13.25rem;
+	/* 24.9375rem; */
+	padding: 0 0 3rem;
+	color: #000;
+	border-bottom: 1px solid rgb(219, 219, 219);
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+}
+
+.profile_img {
+	width: 17.75rem;
+	height: 100%;
+	display: grid;
+	place-content: center;
+	/* border: 1px solid blue; */
+}
+
+.picture {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	/* border: 1px solid #000; */
+	overflow: hidden;
+}
+
+.profile_details {
+	/* border: 1px solid green; */
+	padding-left: 28px;
+	display: grid;
+	grid-template-rows: repeat(3, 1fr);
+}
+
+.top,
+.middle,
+.bottom {
+	color: #000;
+	display: flex;
+	align-items: center;
+}
+
+.user_name {
+	font-size: 1.25rem;
+	text-overflow: ellipsis;
+	line-height: 25px;
+	font-weight: 400;
+	margin-right: 20px;
+}
+
+.profile_edit {
+	height: 2rem;
+	font-weight: 600;
+	width: auto;
+	text-align: center;
+	line-height: 2.125rem;
+	border-radius: 0.5rem;
+	background-color: rgb(239, 239, 239);
+	font-size: 0.875rem;
+	text-overflow: ellipsis;
+	padding: 0 1rem;
+}
+
+.middle {
+	display: flex;
+	align-items: flex-start;
+	line-height: 2.125rem;
+	font-weight: 400;
+	font-size: 1rem;
+	text-align: center;
+	color: rgb(115, 115, 115);
+}
+.middle > div {
+	margin-right: 20px;
+}
+
+.numbers {
+	font-weight: 600;
+	color: #000;
+}
+
+.numbers:not(:last-of-type) {
+	margin-right: 20px;
+}
+
+.bottom {
+	display: flex;
+	align-items: flex-start;
+}
+
+.user_name {
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.profile_main {
+	width: 58.4375rem;
+	height: 15rem;
+	margin: 0 auto 1rem;
+	/* background: #f0f0f0; */
+	color: #000;
+}
+
+.profie_main_nav {
+	height: 3.25rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 3.75rem;
+	line-height: 1.125rem;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	color: #737373;
+	font-weight: 600;
+	letter-spacing: 1px;
+}
+
+.profie_main_nav .posts,
+.profie_main_nav .saved {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	border-top: 1px solid transparent;
+}
+
+.profie_main_nav .active {
+	color: #000;
+	border-top: 1px solid #000;
+}
+
+.nav_svg {
+	display: flex;
+	align-items: center;
+	height: 0.75rem;
+	width: 0.75rem;
+	margin-right: 6px;
+}

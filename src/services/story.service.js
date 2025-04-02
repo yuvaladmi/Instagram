@@ -1,9 +1,8 @@
+import { storageService } from "./async-storage.service.js";
+import { utilService } from "./util.service.js";
+import { userService } from "./user.service.js";
 
-import { storageService } from './async-storage.service.js'
-import { utilService } from './util.service.js'
-import { userService } from './user.service.js'
-
-const STORAGE_KEY = 'story'
+const STORAGE_KEY = "story";
 export const storyService = {
   query,
   getById,
@@ -17,71 +16,71 @@ export const storyService = {
 window.ss = storyService
 
 function onRemoveStoryComment(storyId) {
-  return storageService.remove(STORAGE_KEY, storyId)
+	return storageService.remove(STORAGE_KEY, storyId);
 }
 
 async function query() {
-  const stories = await storageService.query(STORAGE_KEY)
-  if (!stories || !stories.length) _createSrories()
-  return stories
+	const stories = await storageService.query(STORAGE_KEY);
+	if (!stories || !stories.length) _createSrories();
+	return stories;
 }
 
 function getById(storyId) {
-  return storageService.get(STORAGE_KEY, storyId)
+	return storageService.get(STORAGE_KEY, storyId);
 }
 
 async function remove(storyId) {
-  await storageService.remove(STORAGE_KEY, storyId)
+	await storageService.remove(STORAGE_KEY, storyId);
 }
 
 async function save(story) {
-  var savedStory
-  if (story._id) {
-    savedStory = await storageService.put(STORAGE_KEY, story)
-  } else {
-    const user = userService.getLoggedinUser()
-    story.by = {
-      _id: user._id,
-      username: user.username,
-      fullname: user.fullname,
-      imgUrl: user.imgUrl
-    }
-    savedStory = await storageService.post(STORAGE_KEY, story)
-  }
-  return savedStory
+	var savedStory;
+	if (story._id) {
+		savedStory = await storageService.put(STORAGE_KEY, story);
+	} else {
+		const user = userService.getLoggedinUser();
+		story.by = {
+			_id: user._id,
+			username: user.username,
+			fullname: user.fullname,
+			imgUrl: user.imgUrl,
+		};
+		savedStory = await storageService.post(STORAGE_KEY, story);
+	}
+	return savedStory;
 }
 
 function createComment(txt, user) {
-  return {
-    id: utilService.makeId(),
-    by: {
-      _id: user._id,
-      username: user.username,
-      fullname: user.fullname,
-      imgUrl: user.imgUrl
-    },
-    txt
-  }
+	return {
+		id: utilService.makeId(),
+		by: {
+			_id: user._id,
+			username: user.username,
+			fullname: user.fullname,
+			imgUrl: user.imgUrl,
+		},
+		txt,
+	};
 }
 
 function getDefaultFilter() {
-  return { txt: '' }
+	return { txt: "" };
 }
 
 function getEmptyStory() {
-  return {
-    // _id: "",
-    txt: "",
-    imgUrl: [],
-    comments: [],
-    likedBy: [],
-    by: {
-      _id: "",
-      username: "",
-      fullname: "",
-      imgUrl: ""
-    },
-  }
+	return {
+		// _id: "",
+		txt: "",
+		imgUrl: [],
+		comments: [],
+		likedBy: [],
+		by: {
+			_id: "",
+			username: "",
+			fullname: "",
+			imgUrl: "",
+		},
+	};
 }
 
 function _createSrories() {
@@ -307,6 +306,6 @@ function _createSrories() {
       }          
   ]
 
-  // storageService._save(STORAGE_KEY, story)
-  utilService.saveToStorage(STORAGE_KEY, story)
+	// storageService._save(STORAGE_KEY, story)
+	utilService.saveToStorage(STORAGE_KEY, story);
 }

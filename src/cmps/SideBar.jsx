@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
-import { LoginSignup } from './LoginSignup.jsx'
+import { useSelector, useDispatch } from "react-redux";
+import { LoginSignup } from "./LoginSignup.jsx";
 
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
-import { logout } from '../store/actions/user.actions.js'
+import "../assets/style/pages/SideBar.css";
+
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
+import { logout } from "../store/actions/user.actions.js";
 
 export default function Sidebar() {
-    const user = useSelector(storeState => storeState.userModule.loggedInUser)
-    console.log("User:", user);
+	const user = useSelector(storeState => storeState.userModule.loggedInUser);
+	console.log("User:", user);
 
     function onLogout() {
         logout()

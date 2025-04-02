@@ -1,7 +1,8 @@
-import { storageService } from './async-storage.service'
+import { storageService } from "./async-storage.service";
+import { utilService } from "./util.service";
 
-const STORAGE_KEY = 'user'
-const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
+const STORAGE_KEY = "user";
+const STORAGE_KEY_LOGGEDIN = "loggedinUser";
 
 export const userService = {
     login,
@@ -17,38 +18,37 @@ export const userService = {
 
 
 function getById(userId) {
-    return storageService.get(STORAGE_KEY, userId)
+	return storageService.get(STORAGE_KEY, userId);
 }
 
 function login({ username, password }) {
-    return storageService.query(STORAGE_KEY)
-        .then(users => {
-            const user = users.find(user => user.username === username)
-            // if (user && user.password !== password) return _setLoggedinUser(user)
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid login')
-        })
+	return storageService.query(STORAGE_KEY).then(users => {
+		const user = users.find(user => user.username === username);
+		// if (user && user.password !== password) return _setLoggedinUser(user)
+		if (user) return _setLoggedinUser(user);
+		else return Promise.reject("Invalid login");
+	});
 }
 
 function signup({ username, password, fullname }) {
-    const user = { username, password, fullname }
-    if (!user.imgUrl) user.imgUrl = 'https://freesvg.org/img/abstract-user-flat-3.png'; 
-    if (!user.bio) user.bio = '';
-    if (!user.following) user.following = [];
-    if (!user.followers) user.followers = [];
-    if (!user.savedStoryIds) user.savedStoryIds = [];
-    
-    return storageService.post(STORAGE_KEY, user)
-        .then(_setLoggedinUser)
+	const user = { username, password, fullname };
+	if (!user.imgUrl)
+		user.imgUrl = "https://freesvg.org/img/abstract-user-flat-3.png";
+	if (!user.bio) user.bio = "";
+	if (!user.following) user.following = [];
+	if (!user.followers) user.followers = [];
+	if (!user.savedStoryIds) user.savedStoryIds = [];
+
+	return storageService.post(STORAGE_KEY, user).then(_setLoggedinUser);
 }
 
 function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
-    return Promise.resolve()
+	sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN);
+	return Promise.resolve();
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
+	return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN));
 }
 
 function _setLoggedinUser(user) {
@@ -79,9 +79,8 @@ async function getUsers(filterBy = { txt: '' }) {
 }
 
 function updateUserInStorage(user) {
-    return storageService.put(STORAGE_KEY, user);
+	return storageService.put(STORAGE_KEY, user);
 }
-
 
 // function getEmptyUser() {
 //     return {
@@ -96,21 +95,39 @@ function updateUserInStorage(user) {
 //     }
 // }
 function getEmptyCredentials() {
-    return {
-        username: '',
-        password: '',
-        fullname: ''
-    }
+	return {
+		username: "",
+		password: "",
+		fullname: "",
+	};
 }
 
-
 function signupDemoUsers() {
-    return storageService.query(STORAGE_KEY)
-        .then(users => !users.length || Promise.reject('Too Many Demo Users!'))
-        .then(() => userService.signup({ username: 'admin', password: 'admin', fullname: 'Admin Adminov' }))
-        .then(() => userService.signup({ username: 'popo', password: 'popo', fullname: 'Popo McPopo' }))
-        .then(() => userService.signup({ username: 'nina', password: 'nina', fullname: 'Nina Simantov' }))
-} 
+	return storageService
+		.query(STORAGE_KEY)
+		.then(users => !users.length || Promise.reject("Too Many Demo Users!"))
+		.then(() =>
+			userService.signup({
+				username: "admin",
+				password: "admin",
+				fullname: "Admin Adminov",
+			})
+		)
+		.then(() =>
+			userService.signup({
+				username: "popo",
+				password: "popo",
+				fullname: "Popo McPopo",
+			})
+		)
+		.then(() =>
+			userService.signup({
+				username: "nina",
+				password: "nina",
+				fullname: "Nina Simantov",
+			})
+		);
+}
 /*
 const user = {
     _id: "u101",
