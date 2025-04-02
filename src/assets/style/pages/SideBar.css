@@ -1,7 +1,6 @@
 .sidebar-container {
 	display: flex;
 	flex-direction: column;
-
 	height: 100vh;
 	background: white;
 	border-right: 1px solid #ddd;
