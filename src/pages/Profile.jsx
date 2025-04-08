@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import "../assets/style/pages/Profile.css";
 import { storySvg } from "../cmps/svg.jsx";
+
 import { loadUsers, savedStoryUser } from "../store/actions/user.actions.js";
 import { userService } from "../services/user.service.js";
 import { utilService } from "../services/util.service.js";
@@ -12,7 +12,8 @@ export function Profile() {
 	const user = useSelector(storeState => storeState.userModule.loggedInUser);
 
 	const [details, setDetails] = useState({});
-	const [posts, setPosts] = useState([]);
+	const [gridPosts, setGridPosts] = useState([]);
+	const [isActive, setIsActive] = useState(null);
 
 	useEffect(() => {
 		userService.getById(user._id).then(setDetails);
@@ -22,13 +23,32 @@ export function Profile() {
 			};
 			fetchData();
 		}
-		const savedStories = stories.map(story => {});
 	}, []);
 
-	details ? console.dir(details) : console.log("no details");
+	// details ? console.dir(details) : console.log("no details");
 
 	const { username, fullname, imgUrl, following, followers, savedStoryIds } =
 		details;
+
+	const filteredPosts = () => {
+		return stories.filter(story => story.by._id === user._id);
+	};
+
+	const filteredSaved = () => {
+		// return await details.savedStoryIds.map(id => {
+		// 	return stories.filter(story => story.by._id === id);
+		// });
+
+		const filtered = [];
+		savedStoryIds.forEach(savedId => {
+			console.log(typeof savedId);
+			stories.filter(story => {
+				if (story._id === savedId) filtered.push(story);
+			});
+		});
+
+		return filtered;
+	};
 
 	return (
 		<div className="profile_container">
@@ -59,14 +79,48 @@ export function Profile() {
 			</header>
 			<main className="profile_main">
 				<div className="profie_main_nav">
-					<div className="posts active">
+					<div
+						className={`posts ${isActive === "posts" ? "active" : ""}`}
+						onClick={() => {
+							setGridPosts(filteredPosts);
+							setIsActive("posts");
+							console.log(gridPosts);
+						}}
+					>
 						<span className="nav_svg">{storySvg.profile_posts} </span> posts
 					</div>
-					<div className="saved">
+					<div
+						className={`saved ${isActive === "saved" ? "active" : ""}`}
+						onClick={() => {
+							setGridPosts(filteredSaved);
+							setIsActive("saved");
+							console.log(filteredSaved());
+						}}
+					>
 						<span className="nav_svg">{storySvg.profile_saved} </span> saved
 					</div>
 				</div>
-				<div className="profile_storie_grid"></div>
+				<div className="profile_stories_grid">
+					{gridPosts.length > 0 ? (
+						gridPosts.map(story => (
+							<div className="profile_story" key={story.id}>
+								<img src={story.imgUrl} alt="Story" />
+								{isActive === "posts" ? (
+									<p className="notes">
+										<span className="likes">{storySvg.like("white")}</span>
+										{story.likedBy.length}
+										<span className="nav_svg comments">{storySvg.comment("white")}</span>
+										{story.comments.length}
+									</p>
+								) : (
+									""
+								)}
+							</div>
+						))
+					) : (
+						<h1>No posts</h1>
+					)}
+				</div>
 			</main>
 		</div>
 	);

@@ -4,16 +4,12 @@
 	display: grid;
 	grid-template-columns: auto 1fr;
 	overflow-y: auto;
+	background: #fff;
 }
 
 .contant-container {
-    width: 100%;
-    height: 100%;
-}
-
-.contant-container {
-    /* margin-left: 245px; */
-    width: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .contant {

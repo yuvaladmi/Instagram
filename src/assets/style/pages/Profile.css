@@ -44,7 +44,7 @@
 
 .profile_details {
 	/* border: 1px solid green; */
-	padding-left: 28px;
+	/* padding-left: 28px; */
 	display: grid;
 	grid-template-rows: repeat(3, 1fr);
 }
@@ -110,9 +110,13 @@
 	font-weight: 600;
 }
 
+/************************/
+/*********MAIN***********/
+/************************/
+
 .profile_main {
 	width: 58.4375rem;
-	height: 15rem;
+	min-height: 100vh;
 	margin: 0 auto 1rem;
 	/* background: #f0f0f0; */
 	color: #000;
@@ -152,4 +156,67 @@
 	height: 0.75rem;
 	width: 0.75rem;
 	margin-right: 6px;
+}
+
+/************************/
+/*********GRID***********/
+/************************/
+
+.profile_stories_grid {
+	/* min-height: 100vh; */
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.25rem;
+}
+
+.profile_story {
+	color: #fff;
+	height: fit-content;
+	position: relative;
+}
+
+.profile_stories_grid img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 1 / 1.32;
+}
+
+.notes {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	color: white;
+	display: none;
+	overflow: hidden;
+	cursor: pointer;
+	font-weight: 700;
+	font-size: 1rem;
+}
+
+.profile_story:hover .notes {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	margin: 0;
+	padding: 0;
+}
+
+.likes,
+.comments {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 1rem;
+	width: 1rem;
+	margin-right: 0.4375rem;
+	/* font-size: 0.875rem; */
+}
+
+.comments {
+	margin-left: 1.875rem;
 }
