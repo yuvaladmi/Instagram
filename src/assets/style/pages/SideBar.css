@@ -1,20 +1,20 @@
 .sidebar-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background: white;
-    border-right: 1px solid #ddd;
-    top: 0;
-    left: 0;
-    padding: 10px;
-    position: sticky;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	background: white;
+	border-right: 1px solid #ddd;
+	top: 0;
+	/* left: 0; */
+	padding: -10px;
+	position: sticky;
 }
 
 .sidebar {
-    top: 0;
-    height: 100vh;
-    padding: .5rem .75rem 1.25rem;
-    border-inline-end: 1px solid #dbdbdb;
+	top: 0;
+	height: 100%;
+	padding: 0.5rem 0.75rem 1.25rem;
+	border-inline-end: 1px solid #dbdbdb;
 }
 
 .user-info {
@@ -25,18 +25,18 @@
 }
 
 .sidebar ul {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 
 .sidebar ul li {
-    display: list-item;
-    text-align: -webkit-match-parent;
-    unicode-bidi: isolate;
+	display: list-item;
+	text-align: -webkit-match-parent;
+	unicode-bidi: isolate;
 }
 .sidebar a {
 	text-decoration: none;
@@ -54,23 +54,23 @@
 }
 
 .logo {
-    padding: 2rem .75rem 1.75rem;
+	padding: 2rem 0.75rem 1.75rem;
 }
 
-.logo a{
-    text-decoration: none;
-    color: inherit;
-    line-height: 0;
+.logo a {
+	text-decoration: none;
+	color: inherit;
+	line-height: 0;
 }
 
 .logo .svg-icon {
-    line-height: .5;
+	line-height: 0.5;
 }
 
 .link-txt {
-    display: block;
+	display: block;
 }
 
 .svg-icon-bold {
-    display: inline-block;
+	display: inline-block;
 }
