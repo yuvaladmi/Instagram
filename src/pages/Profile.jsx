@@ -2,43 +2,39 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { storySvg } from "../cmps/svg.jsx";
 
-import { loadUsers, savedStoryUser } from "../store/actions/user.actions.js";
 import { userService } from "../services/user.service.js";
-import { utilService } from "../services/util.service.js";
-import { loadStories } from "../store/actions/story.actions.js";
+import { loadStoriesByUser } from "../store/actions/story.actions.js";
 
 export function Profile() {
-	const stories = useSelector(storeState => storeState.storyModule.stories);
+	const stories = useSelector(storeState => storeState.storyModule.loggedInUserStories);
 	const user = useSelector(storeState => storeState.userModule.loggedInUser);
 
 	const [details, setDetails] = useState({});
 	const [gridPosts, setGridPosts] = useState([]);
-	const [isActive, setIsActive] = useState(null);
+	const [isActive, setIsActive] = useState("posts");
 
 	useEffect(() => {
 		userService.getById(user._id).then(setDetails);
 		if (stories.length === 0) {
 			const fetchData = async () => {
-				await loadStories();
+				await loadStoriesByUser(user._id);
 			};
 			fetchData();
 		}
 	}, []);
 
-	// details ? console.dir(details) : console.log("no details");
+	useEffect(() => {
+		setGridPosts(stories)
+	}, [stories])
 
 	const { username, fullname, imgUrl, following, followers, savedStoryIds } =
-		details;
+		user;
 
 	const filteredPosts = () => {
-		return stories.filter(story => story.by._id === user._id);
+		return setGridPosts(stories);
 	};
 
-	const filteredSaved = () => {
-		// return await details.savedStoryIds.map(id => {
-		// 	return stories.filter(story => story.by._id === id);
-		// });
-
+	const filteredSaved = () => {	
 		const filtered = [];
 		savedStoryIds.forEach(savedId => {
 			console.log(typeof savedId);
@@ -49,7 +45,7 @@ export function Profile() {
 
 		return filtered;
 	};
-
+console.log(JSON.stringify(stories));
 	return (
 		<div className="profile_container">
 			<header className="profile_contant">
@@ -63,7 +59,7 @@ export function Profile() {
 					</div>
 					<div className="middle">
 						<div className="profile_posts">
-							<span className="numbers">{savedStoryIds?.length || 0}</span> posts
+							<span className="numbers">{stories?.length || 0}</span> posts
 						</div>
 						<div className="profile_followers">
 							<span className="numbers">{followers?.length || 0}</span> followers
@@ -82,9 +78,8 @@ export function Profile() {
 					<div
 						className={`posts ${isActive === "posts" ? "active" : ""}`}
 						onClick={() => {
-							setGridPosts(filteredPosts);
+							filteredPosts();
 							setIsActive("posts");
-							console.log(gridPosts);
 						}}
 					>
 						<span className="nav_svg">{storySvg.profile_posts} </span> posts
@@ -109,7 +104,7 @@ export function Profile() {
 									<p className="notes">
 										<span className="likes">{storySvg.like("white")}</span>
 										{story.likedBy.length}
-										<span className="nav_svg comments">{storySvg.comment("white")}</span>
+										<span className="nav_svg comments">{storySvg.comment}</span>
 										{story.comments.length}
 									</p>
 								) : (

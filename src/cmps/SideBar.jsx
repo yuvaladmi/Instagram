@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link,useLocation,useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { LoginSignup } from "./LoginSignup.jsx";
-
-import "../assets/style/pages/SideBar.css";
+import { useState } from 'react'
 
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { logout } from "../store/actions/user.actions.js";
@@ -10,25 +8,25 @@ import { sideBarSvg } from "./svg.jsx";
 
 export default function Sidebar() {
 	const user = useSelector(storeState => storeState.userModule.loggedInUser);
-	console.log("User:", user);
+    const location = useLocation()
+    const [isMoreOpen, setIsMoreOpen] = useState(false);
 
-    function onLogout() {
-        logout()
-            .then(() => {
-                showSuccessMsg('Logout successfully')
-            })
-            .catch((err) => {
-                showErrorMsg('OOPs try again')
-            })
+    const isActive = (path) => location.pathname === path
+
+    const navigate = useNavigate()  
+
+    function handleLogout() {
+        logout(); // קריאה ל-Redux או API
+        navigate("/login");
     }
+
     return (
         <section className="sidebar-container">
-            {/* Navigation Section */}
             <nav className="sidebar">
                 <ul>
                     <li className="logo">
                         <a aria-current="page" className="active" href="/">
-                            <span class="svg-icon logo-txt">
+                            <span className="svg-icon logo-txt">
                             <svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="103"
@@ -44,42 +42,80 @@ export default function Sidebar() {
                             </span>
                         </a>
                     </li>
-                    <li>
+                    <li className={`go-to-li ${isActive('/post') ? 'active' : ''}`}>
                         <Link to="/post">
-                            <span class="svg-icon bold">
-                                {sideBarSvg.home}
+                            <span className="svg-icon bold">
+                            <div className="svg-wrapper">
+                            {isActive('/post') ? sideBarSvg.homeActive : sideBarSvg.home}
+                            </div>
                             </span>
                             <span className="link-txt">Home</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={`go-to-li ${isActive('/search') ? 'active' : ''}`}>
                         <Link to="/search">
                             <span>
+                            <div className="svg-wrapper">
                                 {sideBarSvg.search}
+                            </div>
                             </span>
                             <span className="link-txt">Search</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={`go-to-li ${isActive('/messages') ? 'active' : ''}`}>
                         <Link to="/messages">
                             <span>
+                            <div className="svg-wrapper">
                                 {sideBarSvg.messages}
+                            </div>
                             </span>
                             <span className="link-txt">Messages</span>
                         </Link>
                     </li>
-                    <li><Link to="/profile">👤 Profile</Link></li>
+                    <li className={`go-to-li ${isActive('/create') ? 'active' : ''}`}>
+                        <Link to="/create">
+                            <span>
+                            <div className="svg-wrapper">
+                                {sideBarSvg.create}
+                            </div>
+                            </span>
+                            <span className="link-txt">Create</span>
+                        </Link>
+                    </li>
+                    <li className={`go-to-li ${isActive('/profile') ? 'active' : ''}`}>
+                        <Link to="/profile">
+                            <div className="svg-wrapper">
+                                <img className="profile-img" src={user.imgUrl} ></img>
+                            </div>
+                            <span className="link-txt">Profile</span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
-             {/* User Info Section */}
-             {user ? (
-                <div className="user-info">
-                    <Link to={`/user/${user.id}`}>Hello, {user.fullname}</Link>
-                    <button onClick={onLogout}>Logout</button>
+            <nav className="lower-nav">
+                <div className="more-menu">
+                    <button
+                        onClick={() => setIsMoreOpen(prev => !prev)}
+                        className="link"
+                    >
+                        <svg className="w-6 h-6" viewBox="0 0 24 24">
+                        <path d="M4 6h16M4 12h16M4 18h16" stroke="black" strokeWidth="2" />
+                        </svg>
+                        <span className="font-bold">More</span>
+                    </button>
+
+                    {isMoreOpen && (
+                        <div className="menu-content">
+                        <button
+                            onClick={handleLogout}
+                            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100"
+                        >
+                            Log out
+                        </button>
+                        </div>
+                    )}
                 </div>
-            ) : (
-                <LoginSignup />
-            )}
-        </section>
+            </nav>
+        // </section>
     );
 }

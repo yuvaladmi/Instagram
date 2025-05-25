@@ -1,5 +1,5 @@
 import { StoryPreview } from "./StoryPreview.jsx";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useSelector } from "react-redux";
 import {
 	loadStories,
@@ -14,15 +14,16 @@ export function StoriesList() {
 	const currentUser = useSelector(
 		storeState => storeState.userModule.loggedInUser
 	);
+	const users = useSelector(storeState => storeState.userModule.users);
 
 	useEffect(() => {
-		if (stories.length && currentUser) return;
+		if (stories.length && currentUser && users.length) return;
 		loadStories();
 		loadUsers();
 	}, []);
 
 	function onSetNewComment(storyId, newComment) {
-		addComment(newComment, storyId, currentUser);
+		addComment(newComment, storyId);
 	}
 	function onNewLike(storyId) {
 		addLike(storyId, currentUser);
@@ -32,15 +33,15 @@ export function StoriesList() {
 		savedStoryUser(storyId, currentUser._id);
 	}
 
-	if (!stories.length && !currentUser)
+	if (!stories.length && !currentUser && !users.length)
 		return (
 			<div className="loading-page">
 				<span className="loading"></span>
 			</div>
 		);
 	return (
-		<div className="test">
-			<ul className="stories-list">
+		<div className="stories-list">
+			<ul className="stories-list-ul">
 				{stories.map(story => (
 					<li key={story._id}>
 						<StoryPreview
@@ -62,6 +63,44 @@ export function StoriesList() {
 					</li>
 				))}
 			</ul>
+			<div className="suggestions-bar">
+				<div className="bar-container">
+					<div className="current-user">
+						<div className="user-info">
+							<img src={currentUser.imgUrl}/>
+							<div className="names">
+								<p className="username">{currentUser.username}</p>
+								<p className="fullname">{currentUser.fullname}</p>
+							</div>
+						</div>
+						<button>
+							<p>Switch</p>
+						</button>
+					</div>
+					<div className="suggested-headline">
+						<p>Suggested for you</p>
+						<button>
+							<p>See All</p>
+						</button>
+					</div>
+					<ul className="users-list">
+					{Array.isArray(users) && users.map(user => (
+						user._id !== currentUser._id ?
+						<li className="user-prop">
+							<div className="user-info">
+								<img src={user.imgUrl}/>
+								<div className="names">
+									<p className="username">{user.username}</p>
+									<p className="sub-line">Suggested for you</p>
+								</div>
+							</div>
+							<button><p>Follow</p></button>
+						</li>
+						: ''
+						))}
+					</ul>
+				</div>
+			</div>
 		</div>
 	);
 }

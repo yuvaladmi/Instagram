@@ -1,11 +1,10 @@
-import { LoginSignup } from './LoginSignup.jsx'
+// import { LoginSignup } from './LoginSignup.jsx'
 import { userService } from '../services/user.service.js'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { logout } from '../store/actions/user.actions.js'
 import { TOGGLE_CART_IS_SHOWN } from '../store/reducers/car.reducer.js'
 
 import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 
@@ -46,18 +45,6 @@ export function AppHeader() {
                     </a>
                 </nav>
             </section>
-            {
-                user ? (
-                    < section >
-                        <span to={`/user/${user.id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
-                        <button onClick={onLogout}>Logout</button>
-                    </ section >
-                ) : (
-                    <section>
-                        <LoginSignup />
-                    </section>
-                )
-            }
         </header >
     )
 }

@@ -6,6 +6,9 @@ import {
 	SET_IS_LOADING,
 	UNDO_STORIES,
 	UPDATE_STORY,
+	ADD_STORY_COMMENT,
+	ADD_STORY_LIKE,
+	SET_STORIES_PROFILE
 } from "../reducers/story.reducer.js";
 import { store } from "../store.js";
 
@@ -16,6 +19,23 @@ export function loadStories() {
 		.query(filterBy)
 		.then(stories => {
 			store.dispatch({ type: SET_STORIES, stories });
+		})
+		.catch(err => {
+			console.log("story action -> Cannot load stories", err);
+			throw err;
+		})
+		.finally(() => {
+			store.dispatch({ type: SET_IS_LOADING, isLoading: false });
+		});
+}
+
+export function loadStoriesByUser(userId) {
+	store.dispatch({ type: SET_IS_LOADING, isLoading: true });
+	return storyService
+		.getStoriesByUser(userId)
+		.then(stories => {
+			console.log(stories);
+			store.dispatch({ type: SET_STORIES_PROFILE, loggedInUserStories: stories });
 		})
 		.catch(err => {
 			console.log("story action -> Cannot load stories", err);
@@ -61,51 +81,36 @@ export function saveStory(story) {
 		});
 }
 
-export function addComment(txt, storyId, user) {
-    const comment = storyService.createComment(txt, user);
-    return storyService.getById(storyId)
-        .then(story => {
-            story.comments.push(comment);
-            return storyService.save(story)
-                .then((savedStory) => {
-                    store.dispatch({ type: UPDATE_STORY, story: savedStory })
-                })
-                .catch(err => {
-                    console.log('story action -> Cannot save story', err)
-                    throw err
-                })
-        })
-        .catch(err => {
-            console.log('Had issues in new like', err)
-        })
+export async function addComment(txt, storyId) {
+    const comment = await storyService.addStoryComment(txt, storyId);
+	store.dispatch(getCmdAddStoryComment(comment,storyId));
+    return comment;
 }
 
-export function addLike(storyId,currentUser){
-    storyService.getById(storyId)
-        .then(story => {
-            //TODO - move to function in service 
-            const isLikedByUser = story.likedBy.some(like => like._id === currentUser._id);
-            const updatedLikedBy = isLikedByUser ? story.likedBy.filter(userLike => userLike._id !== currentUser._id) // Remove user
-                                    : [...story.likedBy, 
-                                        {
-                                            _id: currentUser._id,
-                                            username: currentUser.username,
-                                            fullname: currentUser.fullname,
-                                            imgUrl: currentUser.imgUrl
-                                        }]; // Add user
+export async function addLike(storyId){
+	const like = await storyService.addStoryLike(storyId);
+	store.dispatch(getCmdAddStoryLike(like,storyId));
+    return like;
+}
 
-            story = { ...story, likedBy: updatedLikedBy };
+export async function addStory(params) {
+	const story = await storyService.addStoryStory(params);
+	store.dispatch({story: story, type: ADD_STORY});
+    return story;
+}
 
-            return storyService.save(story)
-                    .then((savedStory) => {
-                        store.dispatch({ type: UPDATE_STORY, story: savedStory })
-                    })
-                    .catch(err => {
-                        console.log('story action -> Cannot save story', err)
-                        throw err
-                    })
-        })
-        .catch(err => {
-            console.log('Had issues in new like', err)
-        })
+function getCmdAddStoryComment(comment,storyId) {
+    return {
+        type: ADD_STORY_COMMENT,
+        comment,
+		storyId
+    }
+}
+
+function getCmdAddStoryLike(like,storyId) {
+    return {
+        type: ADD_STORY_LIKE,
+        like,
+		storyId
+    }
 }

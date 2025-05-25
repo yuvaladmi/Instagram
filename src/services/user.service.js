@@ -33,7 +33,7 @@ function login({ username, password }) {
 function signup({ username, password, fullname }) {
 	const user = { username, password, fullname };
 	if (!user.imgUrl)
-		user.imgUrl = "https://freesvg.org/img/abstract-user-flat-3.png";
+		user.imgUrl = "https://res.cloudinary.com/dchwihaef/image/upload/v1747755776/abstract-user-flat-3_fr8tju.png";
 	if (!user.bio) user.bio = "";
 	if (!user.following) user.following = [];
 	if (!user.followers) user.followers = [];
@@ -99,6 +99,7 @@ function getEmptyCredentials() {
 		username: "",
 		password: "",
 		fullname: "",
+		email: ""
 	};
 }
 

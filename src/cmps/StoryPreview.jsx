@@ -14,11 +14,6 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
         setShowPicker(prev => !prev);
     }
 
-    // function handleEmojiSelect(emoji) {
-    //     console.log("Selected emoji:", emoji.native);
-    //     setShowPicker(false); // Close picker after selecting an emoji (optional)
-    // }
-
     function handleAddComment() {
         if (!newComment.trim()) return;
 
@@ -45,9 +40,13 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
         console.log("Closing modal..."); // Debugging
         setMenuOpen(false);
     }
+
+    function getFilterStyle(){
+        return story.filter;
+    }
     
     return (
-        <section className="story-preview">
+        <article className="story-preview">
             <section className="story-header">
             <div className="story-user">
                 <img className="profile-img" src={story.by.imgUrl} />
@@ -60,33 +59,39 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
             </section>
         
             <section className="story-img-container">
-                <img className="story-img" src={story.imgUrl} />
+                <img    className="story-img" 
+                        src={story.imgUrl} style={{ 
+                                                    filter: getFilterStyle(), 
+                                                    transition: 'filter 0.25s ease' 
+                                                }}  
+                />
             </section>
         
-            <section className="story-footer">
-                <div className="story-actions">
-                    <div className="left-actions">
-                        <div className="story-like" onClick={() => handleLike()}>
-                            {storySvg.like(isLikeByUser ? "red" : "none")}
-                            {/* <span>{story.likedBy.length}</span> */}
-                        </div>
+            <section className="story-actions">
+                {/* <div className="story-actions"> */}
+                {/* <div className="left-actions"> */}
+                    <span className="story-like" onClick={() => handleLike()}>
+                        {storySvg.like(isLikeByUser ? "red" : "none")}
+                    </span>
 
-                        <div className="story-comment">
-                            {storySvg.comment}
-                            {/* <span>{story.comments.length}</span> */}
-                        </div>
-                    </div>
-                    
-
-                    <div className="save-button" onClick={() => handleSave(story.id)}>
-                        {storySvg.save(isSavedByUser ? "black" : "none")}
-                    </div>
-
-                </div>
-
+                    <span className="story-comment">
+                        {storySvg.comment}
+                    </span>
+                {/* </div> */}
+                
+                <span className="save-button" onClick={() => handleSave(story.id)}>
+                    {storySvg.save(isSavedByUser ? "black" : "none")}
+                </span>
+                {/* </div> */}
+            </section>
+            <section className="story-preview-details">
+                {story.likedBy.length > 0 && (
                 <section className="story-likes-number">
-                    {story.likedBy.length} likes
+                    {story.likedBy.length === 1
+                    ? '1 like'
+                    : `${story.likedBy.length} likes`}
                 </section>
+                )}
                 <section className='story-txt'>
                     <p>
                         <span className="story-txt-user-name">
@@ -98,13 +103,13 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
                 <div className="comments-count">
                     {story.comments.length > 0 && (
                         <Link to={`/post/${story._id}`} className="view-comments-link">
+                        <span>
                             View all {story.comments.length} comments
+                        </span>
                         </Link>
                     )}
                 </div>
-                <div className="add-comment">
-                <form>
-                {/* <textarea name="comment" placeholder="Add a comment..." autoComplete="off" ></textarea> */}
+                <section className="add-comment">
                 <textarea
                     name="comment"
                     placeholder="Add a comment..."
@@ -114,30 +119,19 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
                 ></textarea>
 
                 {newComment.trim() && (
-                    <button type="submit" className="post-btn" onSubmit={handleAddComment}>Post</button>
+                    <button type="submit" className="post-btn" onClick={handleAddComment}>Post</button>
                 )}
-                <div className="emoji-container" style={{ position: "relative" }}>
+                <span className="emoji-container" style={{ position: "relative" }}>
                     {/* <button type="button" onClick={togglePicker} className="emoji-button">😀</button> */}
-                    <svg onClick={togglePicker} xmlns="http://www.w3.org/2000/svg" aria-label="Emoji" class="x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="13" role="img" viewBox="0 0 24 24" width="13"><title>Emoji</title><path d="M15.83 10.997a1.167 1.167 0 1 0 1.167 1.167 1.167 1.167 0 0 0-1.167-1.167Zm-6.5 1.167a1.167 1.167 0 1 0-1.166 1.167 1.167 1.167 0 0 0 1.166-1.167Zm5.163 3.24a3.406 3.406 0 0 1-4.982.007 1 1 0 1 0-1.557 1.256 5.397 5.397 0 0 0 8.09 0 1 1 0 0 0-1.55-1.263ZM12 .503a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12 .503Zm0 21a9.5 9.5 0 1 1 9.5-9.5 9.51 9.51 0 0 1-9.5 9.5Z"></path></svg>
+                    <svg onClick={togglePicker} xmlns="http://www.w3.org/2000/svg" aria-label="Emoji" className="x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="13" role="img" viewBox="0 0 24 24" width="13"><title>Emoji</title><path d="M15.83 10.997a1.167 1.167 0 1 0 1.167 1.167 1.167 1.167 0 0 0-1.167-1.167Zm-6.5 1.167a1.167 1.167 0 1 0-1.166 1.167 1.167 1.167 0 0 0 1.166-1.167Zm5.163 3.24a3.406 3.406 0 0 1-4.982.007 1 1 0 1 0-1.557 1.256 5.397 5.397 0 0 0 8.09 0 1 1 0 0 0-1.55-1.263ZM12 .503a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12 .503Zm0 21a9.5 9.5 0 1 1 9.5-9.5 9.51 9.51 0 0 1-9.5 9.5Z"></path></svg>
 
                     {showPicker && (
                         <div className="picker-popover" ref={pickerRef}>
                             <Picker  />
                         </div>
                     )}
-                </div>
-                </form>
-                    {/* <input
-                        type="text"
-                        placeholder="Add a comment..."
-                        className="comment-input"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                    />
-                    <button className="post-btn" onClick={handleAddComment} disabled={!newComment.trim()}>
-                        Post
-                    </button> */}
-                </div>
+                </span>
+                </section>
             </section>
             {/* Reusable Modal Component */}
             <Modal isOpen={menuOpen} onClose={closeModal}>
@@ -148,7 +142,7 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
                 </ul>
             </Modal>
 
-        </section>
+        </article>
     
     )
 }

@@ -1,6 +1,7 @@
 import { storageService } from "./async-storage.service.js";
 import { utilService } from "./util.service.js";
 import { userService } from "./user.service.js";
+import { httpService } from "./http.service";
 
 const STORAGE_KEY = "story";
 export const storyService = {
@@ -10,8 +11,12 @@ export const storyService = {
 	remove,
 	getEmptyStory,
 	onRemoveStoryComment,
-	createComment,
+	//createComment,
+	addStoryComment,
+	addStoryLike,
 	getDefaultFilter,
+	addStoryStory,
+	getStoriesByUser
 };
 window.ss = storyService;
 
@@ -20,13 +25,16 @@ function onRemoveStoryComment(storyId) {
 }
 
 async function query() {
-	const stories = await storageService.query(STORAGE_KEY);
-	if (!stories || !stories.length) _createSrories();
-	return stories;
+	// const stories = await storageService.query(STORAGE_KEY);
+	// if (!stories || !stories.length) _createSrories();
+	// return stories;
+	return httpService.get(`story`, null)
 }
 
-function getById(storyId) {
-	return storageService.get(STORAGE_KEY, storyId);
+async function getById(storyId) {
+	// return storageService.get(STORAGE_KEY, storyId);
+	
+    return httpService.get(`story/${storyId}`)
 }
 
 async function remove(storyId) {
@@ -50,17 +58,35 @@ async function save(story) {
 	return savedStory;
 }
 
-function createComment(txt, user) {
-	return {
-		id: utilService.makeId(),
-		by: {
-			_id: user._id,
-			username: user.username,
-			fullname: user.fullname,
-			imgUrl: user.imgUrl,
-		},
-		txt,
-	};
+// function createComment(txt, user, storyId) {
+// 	return {
+// 		id: utilService.makeId(),
+// 		by: {
+// 			_id: user._id,
+// 			username: user.username,
+// 			fullname: user.fullname,
+// 			imgUrl: user.imgUrl,
+// 		},
+// 		txt,
+// 	};
+// }
+async function addStoryComment(txt, storyId) {
+    const savedMsg = await httpService.post(`story/${storyId}/msg`, { txt })
+    return savedMsg
+}
+async function addStoryLike(storyId) {
+    const savedLike = await httpService.post(`story/${storyId}/like`)
+    return savedLike
+}
+
+async function addStoryStory(story) {
+    const savedStory = await httpService.post(`story`, {story})
+    return savedStory	
+}
+
+
+async function getStoriesByUser(userId) {
+	return httpService.get(`story/userStories/${userId}`)
 }
 
 function getDefaultFilter() {
@@ -107,7 +133,7 @@ function _createSrories() {
 					by: {
 						_id: "u105",
 						fullname: "Bob",
-						imgUrl: "http://some-img",
+						imgUrl: "https://randomuser.me/api/portraits/women/16.jpg",
 					},
 					txt: "good one!",
 					likedBy: [
@@ -115,7 +141,7 @@ function _createSrories() {
 						{
 							_id: "u105",
 							fullname: "Bob",
-							imgUrl: "http://some-img",
+							imgUrl: "https://randomuser.me/api/portraits/women/16.jpg",
 						},
 					],
 				},

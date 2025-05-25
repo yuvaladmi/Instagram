@@ -1,4 +1,4 @@
-import { userService } from "../../services/user.service.js";
+import { userService } from "../../services/user.service.remote.js";
 import {
 	SET_USER,
 	SET_USER_SCORE,

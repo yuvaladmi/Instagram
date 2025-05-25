@@ -1,0 +1,82 @@
+.login-page {
+  width: 350px;
+  margin: auto;
+  padding-block-start: 10vh;
+  text-align: center;
+}
+
+.login-container {
+  display: grid;
+  margin-block-end: .625rem;  
+      border: 1px solid #dbdbdb;
+}
+
+.login-form {
+    display: grid;
+    width: 75%;
+    justify-self: center;
+    row-gap: .375rem;
+}
+
+.login-form .logo {
+  font-family: 'Billabong', cursive;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.login-form input {
+font-size: .75rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+    background-color: #fafafa;
+    border: 1px solid #dbdbdb;
+    border-radius: .1875rem;
+    padding: .5625rem 0px .4375rem .5rem;
+}
+
+.login-form button {
+    border: none;
+    color: #fff;
+    background: #4cb5f9;
+    padding: .4375rem 1rem;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+    border-radius: .5rem;
+    margin-block-start: .5625rem;
+    margin-block-end: 1.375rem;
+}
+
+.login-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-form .forgot-link {
+  margin-top: 15px;
+  color: #00376b;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.error-msg {
+  color: red;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.success-msg {
+  color: green;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.switch-msg {
+  font-size: 14px;
+  margin-top: 15px;
+}
+.switch-msg a {
+  color: #0095f6;
+  font-weight: bold;
+  text-decoration: none;
+}
+

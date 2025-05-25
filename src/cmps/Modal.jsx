@@ -5,10 +5,9 @@ export function Modal({ isOpen, onClose, children }) {
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                {children} {/* Content from the parent component */}
-                {/* <button className="close-btn" onClick={onClose}>Close</button> */}
-            </div>
+            {/* <div className="modal-content" onClick={(e) => e.stopPropagation()}> */}
+                {children}
+            {/* </div> */}
         </div>
     );
 }

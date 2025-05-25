@@ -2,7 +2,6 @@
 @import './cmps/StoryPreview.css';
 @import './cmps/StoriesList.css';
 @import './cmps/LoginSignup.css';
-@import './cmps/LoginForm.css';
 @import './cmps/StoryDetails.css';
 @import './cmps/Modal.css';
 
@@ -10,9 +9,10 @@
 @import "./pages/App.css";
 @import "./pages/SideBar.css";
 @import "./pages/Profile.css";
+@import "./pages/Login.css";
 
 /* Components */
 @import "./cmps/StoryPreview.css";
 @import "./cmps/StoriesList.css";
 @import "./cmps/LoginSignup.css";
-@import "./cmps/LoginForm.css";
+@import "./cmps/CreateStory.css";
