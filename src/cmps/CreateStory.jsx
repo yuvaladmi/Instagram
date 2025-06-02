@@ -347,7 +347,7 @@ export function CreateStory() {
 
     return (
         // <Modal isOpen={true} onClose={closeDetailsModal}>
-        <div className="modal-backdrop" onClick={onClose}>
+        <div className="modal-backdrop">
                 {renderContent()}
         </div>
         // {/* </Modal> */}

@@ -1,8 +1,7 @@
 import { Link,useLocation,useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState } from 'react'
 
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { logout } from "../store/actions/user.actions.js";
 import { sideBarSvg } from "./svg.jsx";
 
@@ -19,7 +18,7 @@ export default function Sidebar() {
         logout(); // קריאה ל-Redux או API
         navigate("/login");
     }
-
+    
     return (
         <section className="sidebar-container">
             <nav className="sidebar">
@@ -83,7 +82,7 @@ export default function Sidebar() {
                         </Link>
                     </li>
                     <li className={`go-to-li ${isActive('/profile') ? 'active' : ''}`}>
-                        <Link to="/profile">
+                        <Link to={`/profile/${user._id}`}>
                             <div className="svg-wrapper">
                                 <img className="profile-img" src={user.imgUrl} ></img>
                             </div>
@@ -92,7 +91,7 @@ export default function Sidebar() {
                     </li>
                 </ul>
             </nav>
-            <nav className="lower-nav">
+            {/* <nav className="lower-nav">
                 <div className="more-menu">
                     <button
                         onClick={() => setIsMoreOpen(prev => !prev)}
@@ -115,7 +114,7 @@ export default function Sidebar() {
                         </div>
                     )}
                 </div>
-            </nav>
-        // </section>
+            </nav> */}
+        </section>
     );
 }

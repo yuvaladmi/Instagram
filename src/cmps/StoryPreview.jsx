@@ -50,7 +50,10 @@ export function StoryPreview({ story, onSetNewComment, onNewLike, onSaveStory, i
             <section className="story-header">
             <div className="story-user">
                 <img className="profile-img" src={story.by.imgUrl} />
-                <p className="username">{story.by.fullname}</p>
+                <Link to={`/profile/${story.by._id}`} className="story-author-by-link">
+                    <p className="username">{story.by.fullname}</p>
+
+                </Link>
                 <span className='created-at'></span>
             </div>
                 <button className="menu-button" onClick={openModal}>

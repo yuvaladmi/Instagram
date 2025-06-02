@@ -18,7 +18,7 @@ export default function App() {
             <Route element={<MainLayout />}>
                 <Route path="/post" element={<StoryIndex />} />
                 <Route path="/post/:storyId" element={<StoryDetails />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/:userId" element={<Profile />} />
                 <Route path="/:username" element={<UserDetails />} />
 				<Route path="/create" element={<CreateStory />} />
             </Route>

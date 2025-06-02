@@ -1,19 +1,11 @@
 .story-details {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-        "img uploader"
-        "img info"
-        "img bottom-bar";
-    width: 65%;
-    height: 95vh;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 4px;
+    height: 94%;
+    min-width: 60%;
+    max-width: 82%;
+    display: flex
+;
 }
 
 .story-details .uploader {
@@ -31,39 +23,34 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    object-fit: cover;
-    object-position: top;
-    /* margin-inline-end: calc(.75em - .25rem); */
-    margin-inline-end: .875rem;
-    cursor: pointer;
+    max-width: 100%;
 }
 
 .username {
     font-weight: 600;
+    color: #262626;
+    margin: 0;
 }
 
 .menu-button {
     margin-inline-start: auto;
 }
 .story-img-body {
-    /* max-width: 65%;
-    display: flex;
-    background-color: #000; */
-    flex: 1 1 auto;
     max-width: 65%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    overflow: hidden;
+    background-color: #000;
 }
-
-.story-details .story-img {
-    grid-area: img;
-    height: 100%;
-    justify-self: center;
-    object-fit: cover;
-    object-position: center;
+.story-details-txt .story-user-txt {
+    height: 80px;
+    margin: -5px -2px 0 0;
+    padding: 5px 16px 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.story-img-body .story-img {
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .story-details .story-header {
@@ -74,9 +61,15 @@
     border-bottom: 1px #efefef solid;
 }
 
+.story-header .user-info .profile-link {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: 10px;
+    cursor: pointer;
+}
+
 .story-details .story-footer {
-    grid-column: 2; /* Second column */
-    grid-row: 2; /* Second row */
     border-top: 1px #efefef solid;
 }
 
@@ -95,15 +88,10 @@
 }
 
 .story-details-info {
-    /* display: flex;
+    display: flex;
     flex: 1;
     flex-direction: column;
-    justify-content: space-between; */
-    flex: 1 1 auto;
-    max-width: 35%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+    justify-content: space-between;
 }
 
 .story-comments-list {
@@ -174,6 +162,7 @@
     border-style: none;
     resize: none;
     outline: 0px none transparent;
+    height: 18px;
 }
 .story-likes {
     padding-inline: 16px;
@@ -181,4 +170,34 @@
     line-height: 18px;
     font-weight: 600;
     width: fit-content;
+}
+
+.left-actions {
+    display: flex;
+}
+
+.comments-section form {
+    width: 100%;
+    display: flex;
+}
+
+.modal-overlay .close-btn {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00000080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }

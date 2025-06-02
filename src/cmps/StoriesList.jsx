@@ -7,6 +7,7 @@ import {
 	addLike,
 } from "../store/actions/story.actions.js";
 import { loadUsers, savedStoryUser } from "../store/actions/user.actions.js";
+import { FollowBtn } from "./followButton.jsx";
 
 export function StoriesList() {
 	//TODO - move to StoriesIndex
@@ -84,8 +85,12 @@ export function StoriesList() {
 						</button>
 					</div>
 					<ul className="users-list">
-					{Array.isArray(users) && users.map(user => (
-						user._id !== currentUser._id ?
+					{Array.isArray(users) && users.map(user => {
+						const isAlreadyFollowing = currentUser.following?.includes(user._id)
+						const isSelf = user._id === currentUser._id
+						if (isSelf || isAlreadyFollowing) return null // ⛔ הסתרה
+
+						return (
 						<li className="user-prop">
 							<div className="user-info">
 								<img src={user.imgUrl}/>
@@ -94,10 +99,9 @@ export function StoriesList() {
 									<p className="sub-line">Suggested for you</p>
 								</div>
 							</div>
-							<button><p>Follow</p></button>
+							<FollowBtn targetUserId={user._id}/>
 						</li>
-						: ''
-						))}
+						)})}
 					</ul>
 				</div>
 			</div>

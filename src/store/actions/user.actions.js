@@ -55,27 +55,41 @@ export function logout() {
 		});
 }
 
-export function savedStoryUser(storyId, userId) {
-        userService.getById(userId)
-            .then((userFromStorage) => {
-                // debugger;
-                const isSavedByUser = userFromStorage.savedStoryIds.some(savedStoryId => savedStoryId === storyId);
-                const updatedSavedByUser = isSavedByUser ? userFromStorage.savedStoryIds.filter(usersaved => usersaved !== storyId) // Remove user
-                                        : [...userFromStorage.savedStoryIds, storyId]; // Add user
+export function savedStoryUser(storyId) {
+       return userService
+			.saveStory(storyId)
+			.then(user => {
+				console.log(user);
+				store.dispatch({ type: SET_USER, user: user });
+			})
+			.catch(err => {
+				console.log("user action -> Cannot savedStoryUser user", err);
+				throw err;
+			})
+}
 
-                userFromStorage = { ...userFromStorage, savedStoryIds: updatedSavedByUser };
+export function followUser(currentUserId){
+	return userService
+			.followUser(currentUserId)
+			.then(user => {
+				console.log(user);
+				store.dispatch({ type: SET_USER, user: user });
+			})
+			.catch(err => {
+				console.log("user action -> Cannot follow user", err);
+				throw err;
+			})
+}
 
-                userService.updateUserInStorage(userFromStorage)
-                    .then((updatedUser) => {
-                        store.dispatch({ type: SET_USER, user: updatedUser })
-                    
-                    }) 
-                    .catch ((err) => {
-                        console.log('UserActions: err in updateUserInStorage', err)
-                    })
-            })
-            .catch(err => {
-                console.log('user actions -> Cannot signup', err)
-                throw err
-            })
+export function unFollowUser(currentUserId){
+	return userService
+			.unFollowUser(currentUserId)
+			.then(user => {
+				console.log(user);
+				store.dispatch({ type: SET_USER, user: user });
+			})
+			.catch(err => {
+				console.log("user action -> Cannot unfollow user", err);
+				throw err;
+			})
 }

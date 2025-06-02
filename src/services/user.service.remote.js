@@ -11,7 +11,10 @@ export const userService = {
 	remove,
 	update,
     getLoggedinUser,
-	getEmptyCredentials
+	getEmptyCredentials,
+	followUser,
+	unFollowUser,
+	saveStory
 }
 
 function getUsers() {
@@ -55,10 +58,25 @@ async function logout() {
 	return await httpService.post('auth/logout')
 }
 
-function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+async function followUser(targetUserId) {
+	const user = await httpService.post(`user/${targetUserId}/follow`, targetUserId)
+	if (user) return user
 }
 
+async function unFollowUser(targetUserId) {
+	const user = await httpService.post(`user/${targetUserId}/unfollow`, targetUserId)
+	if (user) return user
+}
+
+async function getLoggedinUser() {
+	const loggedInUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    return getById(loggedInUser._id)
+}
+
+async function saveStory(storyId) {
+	const user = await httpService.post(`user/${storyId}/savestory`, storyId)
+	if (user) return user
+}
 function _saveLocalUser(user) {
 	user = { _id: user._id, username: user.username, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score, isAdmin: user.isAdmin }
 	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))

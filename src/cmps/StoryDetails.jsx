@@ -94,30 +94,33 @@ export function StoryDetails() {
 
     if (!story) return <div>Loading...</div>
     return (
-        <Modal isOpen={true} onClose={closeDetailsModal}>
-            <article className="story-details">
-                {/* <section className="story-img-body"> */}
-                <img className="story-img" src={story.imgUrl} 
-                    style={{ 
-                            filter: getFilterStyle(), 
-                            transition: 'filter 0.25s ease' 
-                        }}   />
-                {/* </section> */}
-                {/* <section className="story-details-info"> */}
-                    {/* <section className="story-header"> */}
-                        <div className="uploader">
-                            <img className="profile-img" src={story.by.imgUrl} />
-                            <a className="username">{story.by.fullname}</a>
-                            <span className='created-at'></span>
-                            <button className="menu-button" onClick={openModal}>
-                                {storySvg.threeDots}
-                            </button>
+        // <Modal isOpen={true} onClose={closeDetailsModal}>
+        <div className="modal-overlay" onClick={closeDetailsModal}>
+            <div className="story-details" onClick={(e) => e.stopPropagation()}>
+                <div className="story-img-body">
+                    <img className="story-img" src={story.imgUrl} 
+                        style={{ 
+                                filter: getFilterStyle(), 
+                                transition: 'filter 0.25s ease' 
+                            }}   />
+                </div>
+                <section className="story-details-info">
+                    <section className="story-header">
+                        <div className="user-info">
+                            <div className="profile-link">
+                                <img className="profile-img" src={story.by.imgUrl} />
+                                <p className="username">{story.by.fullname}</p>
+                                <span className='created-at'></span>
+                            </div>
                         </div>
-                    {/* </section> */}
+                        <button className="menu-button" onClick={openModal}>
+                            {storySvg.threeDots}
+                        </button>
+                    </section>
                     <section className="story-details-txt">
                         <div className="story-user-txt">
                             <img className="profile-img" src={story.by.imgUrl} />
-                            <a className="username">{story.by.fullname}</a>
+                            <p className="username">{story.by.fullname}</p>
                             <span>{story.txt}</span>
                         </div>
                         <ul className="story-comments-list">
@@ -195,7 +198,7 @@ export function StoryDetails() {
                             </form>
                         </div>
                     </section>
-                {/* </section> */}
+                </section>
                 {/* Reusable Modal Component */}
                 <Modal isOpen={menuOpen} onClose={closeModal}>
                     <ul className="dropdown-list">
@@ -205,7 +208,15 @@ export function StoryDetails() {
                     </ul>
                 </Modal>
 
-            </article>
-        </Modal>
+            </div>
+            <div className="close-btn" onClick={closeDetailsModal}>
+                <svg xmlns="http://www.w3.org/2000/svg" aria-label="Close" className="x1lliihq x1n2onr6 x9bdzbf" fill="currentColor" height="18" role="img" viewBox="0 0 24 24" width="18">
+                    <title>Close</title>
+                    <polyline fill="none" points="20.643 3.357 12 12 3.353 20.647" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"></polyline>
+                    <line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" x1="20.649" x2="3.354" y1="20.649" y2="3.354"></line>
+                </svg>
+            </div>
+        </div>
+        // </Modal>
     );
 }

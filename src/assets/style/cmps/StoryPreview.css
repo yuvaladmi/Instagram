@@ -22,13 +22,13 @@
     cursor: pointer;
 }
 
-.story-user-txt {
+/* .story-user-txt {
     display: flex;
     justify-content: start;
     align-items: center;
     width: fit-content;
     gap: 10px;
-}
+} */
 
 .username {
     font-weight: bold;
@@ -137,7 +137,7 @@
 }
 
 /* Close Button */
-.close-btn {
+/* .close-btn {
     margin-top: 10px;
     background: #d9534f;
     color: white;
@@ -145,7 +145,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
+} */
 .story-preview .story-actions {
     display: grid;
     gap: 16px;
@@ -212,4 +212,8 @@
 .like-icon {
     fill: red !important;
     stroke: red !important;
+}
+
+.story-author-by-link {
+    text-decoration: unset;
 }
