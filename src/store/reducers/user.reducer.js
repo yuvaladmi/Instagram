@@ -15,7 +15,7 @@ export const LOADING_DONE = 'LOADING_DONE'
 
 const initialState = {
     count: 101,
-    loggedInUser: await userService.getLoggedinUser(),
+    loggedInUser: userService.getLoggedinUser(),
 }
 
 export function userReducer(state = initialState, cmd = {}) {
