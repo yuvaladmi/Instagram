@@ -8,8 +8,22 @@ import { Signup } from "./pages/Signup";
 import { Profile } from "./pages/Profile";
 import { UserDetails } from "./pages/userDetails";
 import { CreateStory } from "./cmps/CreateStory";
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { userService } from './services/user.service.remote.js'
+import { SET_USER } from './store/reducers/user.reducer.js'
 
-export default function App() {
+    export default function App() {
+    const dispatch = useDispatch()
+  
+    useEffect(() => {
+        async function loadUser() {
+            const user = await userService.getLoggedinUser()
+            console.log('👤 Loaded user:', user)
+            if (user) dispatch({ type: SET_USER, user })
+        }
+    loadUser()
+    }, [])
     return (
         <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
