@@ -56,7 +56,7 @@ export function Login() {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h1 className="logo">Instagram</h1>
+        <h1 className="logo">InstaTime</h1>
 
         {isLoggedIn ? (
           <p className="success-msg">Welcome back, {credentials.username}!</p>

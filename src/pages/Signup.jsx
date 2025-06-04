@@ -37,7 +37,7 @@ export function Signup() {
     return (
             <div className="login-container">
                 <form className="login-form" onSubmit={handleSubmit}>
-                <h1 className="logo">Instagram</h1>
+                <h1 className="logo">InstaTime</h1>
 
                 {isSignedUp ? (
                     <p className="success-msg">Welcome, {signupInfo.fullname}! 🎉</p>

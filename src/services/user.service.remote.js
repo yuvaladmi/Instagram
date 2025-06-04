@@ -70,6 +70,7 @@ async function unFollowUser(targetUserId) {
 
 async function getLoggedinUser() {
 	const loggedInUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+	console.log('loggedInUser:', loggedInUser)
     return getById(loggedInUser._id)
 }
 
